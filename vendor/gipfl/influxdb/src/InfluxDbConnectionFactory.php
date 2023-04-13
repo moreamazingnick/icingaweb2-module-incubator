@@ -19,7 +19,7 @@ abstract class InfluxDbConnectionFactory
      */
     public static function create(CurlAsync $curl, $baseUrl, $username = null, $password = null)
     {
-        $v1 = new InfluxDbConnectionV1($curl, $baseUrl);
+        $v1 = new InfluxDbConnectionV1($curl, $baseUrl, $username, $password);
         return $v1->getVersion()->then(function ($version) use ($baseUrl, $username, $password, $curl, $v1) {
             if ($version === null || preg_match('/^v?2\./', $version)) {
                 $v2 = new InfluxDbConnectionV2($curl, $baseUrl, $username, $password);
