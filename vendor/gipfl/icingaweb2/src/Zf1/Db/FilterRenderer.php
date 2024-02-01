@@ -6,6 +6,7 @@ use gipfl\ZfDb\Adapter\Adapter as Db;
 use gipfl\ZfDb\Exception\SelectException;
 use gipfl\ZfDb\Expr;
 use gipfl\ZfDb\Select;
+use Icinga\Application\Logger;
 use Icinga\Data\Filter\Filter;
 use Icinga\Data\Filter\FilterAnd;
 use Icinga\Data\Filter\FilterChain;
@@ -215,8 +216,11 @@ class FilterRenderer
         if ($expression === '*') {
             return $this->expr('TRUE');
         }
-
-        return $col . ' LIKE ' . $this->escape($this->escapeWildcards($expression));
+        if($this->db instanceof \Zend_Db_Adapter_Pdo_Pgsql){
+            return $col . ' ILIKE ' . $this->escape($this->escapeWildcards($expression));
+        }else{
+            return $col . ' LIKE ' . $this->escape($this->escapeWildcards($expression));
+        }
     }
 
     protected function renderNotLike($col, $expression)
@@ -315,7 +319,11 @@ class FilterRenderer
                 return $this->expr('TRUE');
             }
 
-            return $col . ' LIKE ' . $this->escape($this->escapeWildcards($expression));
+            if($this->db instanceof \Zend_Db_Adapter_Pdo_Pgsql){
+                return $col . ' ILIKE ' . $this->escape($this->escapeWildcards($expression));
+            }else{
+                return $col . ' LIKE ' . $this->escape($this->escapeWildcards($expression));
+            }
         } elseif ($sign === '!=' && strpos($expression, '*') !== false) {
             if ($expression === '*') {
                 return $this->expr('FALSE');
