@@ -6,7 +6,6 @@ use gipfl\ZfDb\Adapter\Adapter as Db;
 use gipfl\ZfDb\Exception\SelectException;
 use gipfl\ZfDb\Expr;
 use gipfl\ZfDb\Select;
-use Icinga\Application\Logger;
 use Icinga\Data\Filter\Filter;
 use Icinga\Data\Filter\FilterAnd;
 use Icinga\Data\Filter\FilterChain;
